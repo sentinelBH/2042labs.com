@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html >
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
+  <link rel="mask-icon" type="" href="https://production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
+  <title>TOUCHED BY S3NT1N3L GANS</title>
+  
+  
+  
+  
+      <style>
+      body {
+            margin: 0;
+            padding: 0;
+            font-family: monospace;
+            background: url('https://lh3.googleusercontent.com/ndWMnroQdMUDzk8yhRzYVCV_JjlJCnk_WyNmckLQqwf8cWqSDTOUIQZ136UW60Sq1-OOeF5TNfIsncsBqRJn1otzla4esxbQzMwmCZCf1z0hoqRW-fjJuoyPfj9KuYPWp4z22qLZ6tsH6W_u7927OdL94hBBSrmWFbimMeWnepkCv0W5gGzV1X16YmIlPWCo2rVtcyN8MhcrJnybfhGv8G01y7c8YnBtiCwtisff69SzL3gl5q7MShMJM6k1Jp98ghV0B6xN80-DjDzmh1qDfjMEn-rx0z1DBSoVy3QnNaxulr-kVfLRlMlEl69sC8O4F2o_nQEKtTTPdcMjagfkjzR6xeTjANFiUlBleZU3g-iwoN0m02EnB1MJ1-UAlnfXBz4flCVa8hCixlwmAMCP416QliXFfArgx3z7UkSWksik9-Jwt5TCbO5u3H8Vr7-LmSHam5bA5PX1vys6XX-EF90_Fr9TX0MQ_9NUuRaOMnyjp70wVaVx1YCXk7KrN2L9CguGU32xsRirF4J4fR4hw4GF6qdNabaQ25uCyKiVrsWUGjlfZEHj8lnhm5FU3L0egy9JHrtUXwSwadCR2rSE1y7xjGBoSutoQyXXHdH6jvTw8iH_MScPQ71ZZibB0dicW8m76JDKMYYCQCf2q06tco2bzmeMXjcjZjkpdfUizkrzDH2Xydhy5RK8DfvUTYHkL73p3dxS-R7rJaGYUA=w480-h300-no') #000 no-repeat;
+            background-size: 100%;
+        }
+        #slogan {
+            text-align: center;
+            font-size: 36px;
+            margin-top: 20%;
+            color: #fff;
+        }
+        #slogan span { color: #cb0000}
+        #slogan span.selected {
+            background: #09f;
+            color: #fff;
+        }
+    </style>
+
+  
+  
+  
+  
+</head>
+
+<body oncontextmenu='return false;' onkeydown='return false;' onmousedown='return false;' ondragstart='return false' onselectstart='return false' style='-moz-user-select: none; cursor: default;'>
+
+  <div id="slogan" data-text="it's me senpai . S3NT1N3L"></div>
+  
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+
+    <script>
+    (function($){
+
+    $.fn.typer = function(options){
+
+        var defaults = $.extend({
+            search: '',
+            replace: [],
+            speed: 50,
+            delay: 2000
+        }, options);
+        
+        var bintext = function(length){
+            var text = '';
+            for(var $i = 0; $i<=length;$i++) {
+                text = text + Math.floor(Math.random() * 2)
+            }
+            return text;
+        };
+
+        this.each(function(){
+
+            var $this = $(this);
+            var $text = $this.data('text');
+            var position = 0;
+
+            var indexOf = $text.indexOf( defaults.search );
+            var normal = $text.substr(0, indexOf);
+            var changer = $text.substr(indexOf, $text.length);
+
+            defaults.replace.push(changer);
+
+            var interval = setInterval(function(){
+                var $bintext = '';
+
+                if( position == indexOf ) {
+
+                    $bintext = bintext(changer.length-1);
+
+                    $this.html( $text.substr(0, normal.length) );
+                    $this.append('<span>' + $bintext + '</span>')
+
+                } else if( position > indexOf ) {
+
+
+                    $bintext = bintext($text.length-1);
+
+                    $this.delay(defaults.speed).find('span').html(
+                        changer.substring(0, position - indexOf) +
+                        $bintext.substring(position, ($bintext.length))
+                    );
+
+                } else if( position < indexOf ) {
+
+                    $bintext = bintext($text.length-1);
+
+                    $this.delay(defaults.speed).html(
+                        normal.substring(0, position) +
+                        $bintext.substring(position, ($bintext.length))
+                    );
+
+                }
+
+                if( position < $text.length ) {
+                    position++;
+                } else {
+                    clearInterval(interval);
+
+                    var index = 0;
+                    setInterval(function(){
+
+                        var position = 0;
+                        var newText = defaults.replace[index];
+
+                        var changeInterval = setInterval(function(){
+
+                            var $bintext = '';
+                            for(var $i = 0; $i<=newText.length-1;$i++) {
+                                $bintext = $bintext + Math.floor(Math.random() * 2)
+                            }
+
+                            $this.delay(defaults.speed).find('span').html(
+                                newText.substring(0, position) +
+                                $bintext.substring(position, ($bintext.length))
+                            );
+
+                            if( position < $text.length ) {
+                                position++;
+                            } else {
+                                clearInterval(changeInterval);
+                            }
+
+                        }, defaults.speed);
+
+                        if( index < defaults.replace.length-1 ) {
+                            index++;
+                        } else {
+                            index = 0;
+                        }
+                    }, defaults.delay)
+
+
+                }
+            }, defaults.speed)
+
+        });
+
+    }
+
+
+
+})(jQuery)
+
+$(function(){
+  $('#slogan').typer({
+    search: 'S3NT1N3L',
+    replace: ['S3NT1N3L', 'S3NT1N3L', 'S3NT1N3L','S3NT1N3L','S3NT1N3L','S3NT1N3L','S3NT1N3L','S3NT1N3L','S3NT1N3L','S3NT1N3L']
+  })
+})
+  </script>
+
+  
+<iframe width="0" height="0" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/237603952&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true"></iframe>
+
+</body>
+</html>
+ 
+    
